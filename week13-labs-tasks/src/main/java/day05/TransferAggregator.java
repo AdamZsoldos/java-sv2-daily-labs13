@@ -36,9 +36,12 @@ public class TransferAggregator {
         String sourceClientId = fields[0];
         String targetClientId = fields[1];
         int amount = Integer.parseInt(fields[2]);
-        TransferPerClient source = result.computeIfAbsent(sourceClientId, k -> new TransferPerClient(sourceClientId));
-        source.decrease(amount);
-        TransferPerClient target = result.computeIfAbsent(targetClientId, k -> new TransferPerClient(targetClientId));
-        target.increase(amount);
+        increaseTransfer(result, sourceClientId, -amount);
+        increaseTransfer(result, targetClientId, amount);
+    }
+
+    private void increaseTransfer(Map<String, TransferPerClient> result, String clientId, int amount) {
+        TransferPerClient transfer = result.computeIfAbsent(clientId, k -> new TransferPerClient(clientId));
+        transfer.increase(amount);
     }
 }
