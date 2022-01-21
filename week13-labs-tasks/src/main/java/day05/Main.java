@@ -9,15 +9,7 @@ public class Main {
         TransferAggregator aggregator = new TransferAggregator();
         List<TransferPerClient> transfers = aggregator.readTransfers(Path.of("src/test/resources/transfers.csv"));
         for (TransferPerClient transfer : transfers) {
-            System.out.println(
-                    transfer.getClientId() +
-                    addWhitespace(transfer.getSumOfTransactions(), 12) +
-                    addWhitespace(transfer.getNumberOfTransactions(), 5)
-            );
+            System.out.printf("%s %,12d %5d%n", transfer.getClientId(), transfer.getSumOfTransactions(), transfer.getNumberOfTransactions());
         }
-    }
-
-    private static String addWhitespace(int number, int totalSpaces) {
-        return " ".repeat(totalSpaces - String.valueOf(number).length()) + number;
     }
 }
