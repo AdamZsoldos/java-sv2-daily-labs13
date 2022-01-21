@@ -33,15 +33,19 @@ public class TransferAggregator {
 
     private void parseLine(Map<String, TransferPerClient> result, String line) {
         String[] fields = line.split(",");
+        String fromClientId = fields[0];
+        String toClientId = fields[1];
         int amount = Integer.parseInt(fields[2]);
-        increaseTransfer(result, fields[0], -amount);
-        increaseTransfer(result, fields[1], amount);
+        increaseTransfer(result, fromClientId, -amount);
+        increaseTransfer(result, toClientId, amount);
     }
 
     private void increaseTransfer(Map<String, TransferPerClient> result, String clientId, int amount) {
-        if (!result.containsKey(clientId)) {
-            result.put(clientId, new TransferPerClient(clientId));
+        TransferPerClient transfer = result.get(clientId);
+        if (transfer == null) {
+            transfer = new TransferPerClient(clientId);
+            result.put(clientId, transfer);
         }
-        result.get(clientId).increase(amount);
+        transfer.increase(amount);
     }
 }
