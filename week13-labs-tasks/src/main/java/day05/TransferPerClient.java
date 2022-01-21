@@ -29,11 +29,6 @@ public class TransferPerClient implements Comparable<TransferPerClient> {
         numberOfTransactions++;
     }
 
-    public void decrease(int amount) {
-        sumOfTransactions -= amount;
-        numberOfTransactions++;
-    }
-
     @Override
     public int compareTo(TransferPerClient o) {
         return clientId.compareTo(o.clientId);
